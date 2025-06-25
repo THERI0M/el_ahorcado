@@ -1,163 +1,141 @@
 import random
-palalabras=("encebollado", "ceviche", "hornado", "fritada", "corviche", "tonga", "llapingacho", "fanesca", "morada", "locro", "bolon", "tigrillo", "cuy", "chugchucaras", "encocado", "maito", "yahuarlocro", "chonta", "mote", "hallullas", "quimbolito", "humitas" )
-palabra_secreta=random.choice(palalabras)
-palabra_mostrada=""
-for guiones in palabra_secreta:
-    palabra_mostrada += "_"
-grafico6 = ('''
-           +---+
-           |   |
-               |
-               |
-               |
-               |
-        ========''')
-grafico5 = ('''
-           +---+
-           |   |
-          🙄​   |
-               |
-               |
-               |
-        ========''')
-grafico4 = ('''
-           +---+
-           |   |
-          😳   |
-           |   |
-               |
-               |
-        ========''')
-grafico3 = ('''
-           +---+
-           |   |
-          ​😨​   |
-          /|   |
-               |
-               |
-        ========''')
-grafico2 = ('''
-           +---+
-           |   |
-          ​🤢​   |
-          /|\  |
-               |
-               |
-        ========''')
-grafico1 = ('''
-           +---+
-           |   |
-          ​​🤪​   |
-          /|\  |
-          /    |
-               |
-        ========''')
-grafico0 = ('''
-           +---+
-           |   |
-          ​​​😑​​   |
-          /|\  |
-          / \  |
-               |
-        ========''')
 
-letras_intentadas=""
-intentos_restantes=6
-print("<<<BIENVENIDO AL AHORCADO>>>")
-print("\nde la comida ecuatoriana 🍤")
+def palabra_random():    
+    palabras = ["encebollado", "ceviche", "hornado", "fritada", "corviche", "tonga", "llapingacho", "fanesca", "morada", "locro", "bolon", "tigrillo", "cuy", "chugchucaras", "encocado", "maito", "yahuarlocro", "chontacuro", "mote", "hallullas", "quimbolito", "humitas"]
+    return random.choice(palabras)
 
-# Bucle principal
-while True:
-    # Mostrar el gráfico
-    if intentos_restantes==6:
-        print(grafico6)
-    elif intentos_restantes==5:
-        print(grafico5)
-    elif intentos_restantes==4:
-        print(grafico4)
-    elif intentos_restantes==3:
-        print(grafico3)
-    elif intentos_restantes==2:
-        print(grafico2)
-    elif intentos_restantes==1:
-        print(grafico1)
-    elif intentos_restantes==0:
-        print(grafico0)
+def grafico_ahorcado(intentos):
+    stages = [   # Ahorcado etapas
+                 """
+                    +---+
+                    |   |
+                    ​😑​  |
+                    /|\ |
+                    / \ |
+                        |
+                    ========
+                 """,
+                 """
+                    +---+
+                    |   |
+                    ​🤪​  |
+                    /|\ |
+                    /   |
+                        |
+                    ========
+                 """,
+                 """
+                    +---+
+                    |   |
+                    ​🤢​  |
+                    /|\ |
+                        |
+                        |
+                    ========
+                 """,
+                 """
+                    +---+
+                    |   |
+                    ​😨​  |
+                    /|  |
+                        |
+                        |
+                    ========
+                 """,
+                 """
+                    +---+
+                    |   |
+                    😳  |
+                    |   |
+                        |
+                        |
+                    ========
+                 """,
+                 """
+                    +---+
+                    |   |
+                    🙄​  |
+                        |
+                        |
+                        |
+                    ========
+                 """,
+                 """
+                    +---+
+                    |   |
+                        |
+                        |
+                        |
+                        |
+                    ========
+                 """
+    ]
+    return stages[intentos]
+# DEFINO VARIABLES
+def jugar_ahorcado():     
+    comida = palabra_random()
+    guiones = ["_"] * len(comida)
+    letras_adivinadas = []
+    palabras_adivinadas = []
+    intentos = 6
+    fin_del_juego = False
+# DETERMINO LA PARTE VISUAL PARA EL USUARIO
+    print("<<<🎉 BIENVENIDO AL AHORCADO 🎉>>>")
+    print("\n¡De la comida ecuatoriana! 🍲😋")
+    print(grafico_ahorcado(intentos))
+    print(" ".join(guiones))
+    print(f"La palabra tiene {len(comida)} letras. 🤔")
+# BUCLE PRINCIPAL
+    while not fin_del_juego:
+        ingreso_usuario = input("\n👉 Adivina una letra o la palabra completa: ").lower()
 
-    print(f"Palabra: {palabra_mostrada} 🤓")
-    print(f"Letras INGRESADAS: {letras_intentadas} ✏️")
-    print(f"Te quedan {intentos_restantes} intentos 😉")
-
-    letra_ingresada_por_usuario = input("\nIngresa una letra: ").lower()
-
-    # Después de pedir la letra se contabiliza y se revisa; si ya ha sido ingresada.
-
-    
-    contador_de_letras = 0
-    for char_val in letra_ingresada_por_usuario:
-        contador_de_letras += 1
-    if contador_de_letras != 1:
-        print("¡Por favor, ingresa SOLO UNA letra!")
-        continue
-    if letra_ingresada_por_usuario in letras_intentadas:
-        print(f"¡Ya probaste la letra '{letra_ingresada_por_usuario}'! No lo olvides 😱")
-        continue
-    letras_intentadas += letra_ingresada_por_usuario + " "
-
-    # Proceso cuando la letra si se encuentra en la palabra.
-
-    if letra_ingresada_por_usuario in palabra_secreta:
-        print(f"La letra '{letra_ingresada_por_usuario}' está en la palabra 👍")
-        nueva_palabra_mostrada = ""
-
-        # Ubicar las letras ingresadas en palabras temporales
-        palabra_temporal = ""
-        for letra_secreta in palabra_secreta:
-            palabra_temporal += letra_secreta
-        palabra_temporal_mostrada = ""
-        for letra_mostrada in palabra_mostrada:
-            palabra_temporal_mostrada += letra_mostrada
-        # Comparamos letra por letra para ubicarlas        
-        posicion_actual_en_palabra = 0
-        union_de_letras = ""               
-        for letra_secreta in palabra_temporal:            
-            posicion_palabra_mostrada = 0
-            posicion_de_letra = '_'      
-            for letra_mostrada in palabra_temporal_mostrada:
-                if posicion_palabra_mostrada == posicion_actual_en_palabra:
-                    posicion_de_letra = letra_mostrada
-                    break # Encontramos el carácter en la posición correcta
-                posicion_palabra_mostrada += 1
-            if letra_secreta == letra_ingresada_por_usuario:
-                union_de_letras += letra_ingresada_por_usuario
-            elif posicion_de_letra != '_':
-                union_de_letras += posicion_de_letra
+        if len(ingreso_usuario) == 1 and ingreso_usuario.isalpha():
+            if ingreso_usuario in letras_adivinadas:
+                print(f"¡Oops! 😅 Ya ingresaste la letra '{ingreso_usuario}'. ¡Intenta con otra! 🧐")
+            elif ingreso_usuario not in comida:
+                print(f"¡Mmm! ❌ La letra '{ingreso_usuario}' no está en la palabra. ¡Pierdes un intento! 😟")
+                intentos -= 1
+                letras_adivinadas.append(ingreso_usuario)
             else:
-                union_de_letras += '_'            
-            posicion_actual_en_palabra += 1 # Avanzamos en la posición
-        palabra_mostrada = union_de_letras # Actualizamos la palabra que el usuario ve
+                print(f"¡Súper! 🎉 La letra '{ingreso_usuario}' sí está en la palabra. ¡A seguir así! 👍")
+                letras_adivinadas.append(ingreso_usuario)
+                for i in range(len(comida)):
+                    if comida[i] == ingreso_usuario:
+                        guiones[i] = ingreso_usuario
+        elif len(ingreso_usuario) == len(comida) and ingreso_usuario.isalpha():
+            if ingreso_usuario in palabras_adivinadas:
+                print(f"¡Hey! 🤨 Ya ingresaste la palabra '{ingreso_usuario}'. ¡Prueba otra vez! 🔄")
+            elif ingreso_usuario != comida:
+                print(f"¡Uy! 👎 La palabra '{ingreso_usuario}' no es correcta. ¡Otro intento menos! 🥺")
+                intentos -= 1
+                palabras_adivinadas.append(ingreso_usuario)
+            else:
+                print(f"\n¡WOW! 🥳 ¡Eres un experto en comida Ecuatoriana! 👨‍🍳👩‍🍳")
+                print(f"¡La palabra secreta era '{comida}'! ¡Delicioso! 💯")
+                fin_del_juego = True
+        else:
+            print("¡Alto ahí! 🛑 Por favor, ingresa SOLO UNA letra o la palabra completa. ¡No hagas trampa! 😉")
+
+        print(grafico_ahorcado(intentos))
+        print(" ".join(guiones))
+        print(f"Letras adivinadas: {', '.join(sorted(letras_adivinadas))} 📝")
+        print(f"Intentos restantes: {intentos} ❤️")
+
+        if "_" not in guiones:
+            print(f"\n¡FELICIDADES! 🏆 Completaste la palabra: '{comida}'! ¡Eres el mejor! 🌟")
+            fin_del_juego = True
+
+        if intentos == 0 and not fin_del_juego:
+            print(grafico_ahorcado(intentos))
+            print(f"\n¡FATALITY! 💔 No sabes nada de comida ecuatoriana. ¡La palabra era '{comida}'! 😭")
+            fin_del_juego = True
+
+    nueva_partida = input("\n¿Dale otra partida? (s/n) 🕹️: ").lower()
+    if nueva_partida == 's':
+        jugar_ahorcado()
     else:
-        print(f"¡Incorrecto! La letra '{letra_ingresada_por_usuario}' NO está en la palabra.")
-        intentos_restantes -= 1
+        print("¡Gracias por jugar, Ña! 👋 ¡Vuelve pronto por más sabores! 🇪🇨")
 
-    # Reglas para que el juego termine
-    # Se verifica si se ganó (si no hay guiones en palabra_mostrada)
-    juego_ganado = True
-    for char_displayed in palabra_mostrada:
-        if char_displayed == '_':
-            juego_ganado = False
-            break
-
-    if juego_ganado:
-        print(f"\nCompletaste la palabra: {palabra_mostrada}")
-        print(f"\nWOW eres un experto en comida Ecuatoriana \nLa palabra secreta era {palabra_secreta}!")
-        break
-
-    # Se Verifica si perdió (no quedan intentos)
-    if intentos_restantes == 0:
-        print(f"\nPalabra actual: {palabra_mostrada}")
-        print(f"\nNo sabes nada de comida ecuatoriana, La palabra era {palabra_secreta}. ​😡​")
-        print(grafico0)
-        break
-
-print("\nNos Vemos Ña!")
+# Inicia el juego
+if __name__ == "__main__":
+    jugar_ahorcado()
