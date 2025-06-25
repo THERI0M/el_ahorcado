@@ -5,7 +5,7 @@ def palabra_random():
     return random.choice(palabras)
 
 def grafico_ahorcado(intentos):
-    stages = [   # Ahorcado etapas
+    etapas = [   # DIBUJO AHORCADO POR ETAPAS
                  """
                     +---+
                     |   |
@@ -70,7 +70,7 @@ def grafico_ahorcado(intentos):
                     ========
                  """
     ]
-    return stages[intentos]
+    return etapas[intentos]
 # DEFINO VARIABLES
 def jugar_ahorcado():     
     comida = palabra_random()
